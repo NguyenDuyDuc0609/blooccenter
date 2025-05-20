@@ -1,0 +1,26 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  .container-dashboards {
+    width: 100vw;
+    height: 100vh;     
+    display: flex;  
+    flex-direction: row; 
+    align-items: stretch; 
+    justify-content: flex-start;
+    background-color: aquamarine;
+    margin-top: 100px; 
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  .main-content {
+    margin-left: 250px;  
+    padding: 20px; 
+    flex-grow: 1;
+    background-color: white;
+    height: 100vh;
+    overflow-y: auto; 
+  }

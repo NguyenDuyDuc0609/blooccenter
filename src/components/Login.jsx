@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import './Login.css';
+import './css/Login.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useAuth } from '../../store/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { useLoading } from '../context/LoadingContext';
+import { useToast } from '../context/ToastContext';
 export const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const { login } = useAuth(); 
+    const { showLoading, hideLoading } = useLoading();
+    const { showToast } = useToast();
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
     };
@@ -20,24 +23,29 @@ export const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        showLoading();
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        hideLoading();
         try {
             const userData = await login(username, password);
-            if(userData.success == true){
-                toast.success("Đăng nhập thành công!");
-                navigate('/'); 
-            }
-            else{
-                toast.error(userData.message);
+
+            if (userData.success === true) {
+                showToast({ message: 'Đăng nhập thành công!', success: true });
+                navigate('/');
+            } else {
+                showToast({ message: userData.message, success: false });
                 navigate('/login');
             }
-        } catch (error) {
-            toast.error("Đăng nhập thất bại. Vui lòng thử lại!");
-            console.error('Error:', error);
-        }
+            } catch (error) {
+            showToast({ message: error.message || 'Đăng nhập thất bại.', success: false });
+            console.error('Login error:', error);
+            } finally {
+            hideLoading();
+            }
     };
 
     return (
-        <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh', width: '500px' }}>
+        <div className="d-flex justify-content-center align-items-center mx-auto" style={{ height: '100vh', width: '500px' }}>
             <form className="mt-20 w-300" style={{ width: '400px' }} onSubmit={handleSubmit}>
                 <div data-mdb-input-init className="form-outline mb-4">
                     <label className="form-label" htmlFor="form2Example1">Username</label> 
@@ -57,7 +65,7 @@ export const Login = () => {
                     </div>
                 </div>
 
-                <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary btn-block mb-4">Sign in</button>
+                <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary btn-block mb-4">Login</button>
 
                 <div className="text-center">
                     <p>Not a member? Not a member? <Link to="/signup">Register</Link></p>

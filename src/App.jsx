@@ -1,32 +1,48 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Login } from './components/login/login';
-import { Signup } from './components/signup/Signup';
+import { Login } from './components/login';
+import { Signup } from './components/Signup';
 import { Homepage } from './pages/Homepage';
-import { AuthProvider } from './store/AuthContext';
-import { Header } from './components/header/Header';
+import { AuthProvider } from './context/AuthContext';
+import { Header } from './components/Header';
 import { DashBoard } from './pages/DashBoard';
 import { ProtectRoute } from './parts/ProtectRoute';
+import { ActivityGoing } from './components/ActivityGoing';
+import { InforUser } from './components/InforUser';
+import { Histories } from './components/Histories';
+import { LoadingProvider } from './context/LoadingContext';
+import { ToastProvider } from './context/ToastContext';
 function App() {
   return (
-    <AuthProvider>
+    <LoadingProvider>
+      <ToastProvider>
+        <AuthProvider>
       <BrowserRouter>
       <Header/>
-        <Routes>
+      <Routes>
           <Route path='/' element={<Homepage />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<Signup/>}/>
-          <Route
+          <Route path='/signup' element={<Signup />} />
+
+          <Route path='/dashboard' element={<DashBoard />}>
+            <Route index element={<ActivityGoing />} />
+            <Route path='activityGoing' element={<ActivityGoing />} />
+            <Route path='inforUser' element={<InforUser />} />
+            <Route path='histories' element={<Histories />} />
+          </Route>
+          {/* <Route
             path="/dashboard"
             element={
               <ProtectRoute>
                 <DashBoard />
               </ProtectRoute>
             }
-          />
+          /> */}
         </Routes>
       </BrowserRouter>
     </AuthProvider>
+      </ToastProvider>
+    </LoadingProvider>
   );
 }
 

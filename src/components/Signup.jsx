@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { signup } from '../../services/AuthServices';
-
+import { signup } from '../services/AuthServices';
+import { useToast } from '../context/ToastContext';
+import { useLoading } from '../context/LoadingContext';
 export const Signup = () => {
   const [UserName, setUsername] = useState('');
   const [Password, setPassword] = useState('');
   const [Email, setEmail] = useState('');
   const [FullName, setFullName] = useState('');
   const [RepeatPassword, setRepeatPassword] = useState('');
+  const {showToast} = useToast();
+   const { showLoading, hideLoading } = useLoading();
   const navigate = useNavigate();
 
   const handleUsernameChange = (e) => {
@@ -28,23 +31,28 @@ export const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    showLoading();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    hideLoading();
     if (Password !== RepeatPassword) {
       window.alert("Passwords do not match!");
       return;
     }
 
     try {
-      const response = await signup(UserName, Password, Email, FullName);
-      if (response === -1) {
-        window.alert("Signup failed."); 
-      } else {
-        navigate('/login');
-      }
-    } catch (error) {
-      window.alert("Signup failed. Please try again!");
-      console.error('Error:', error);
-    }
+          const result = await signup(UserName, Password, Email, FullName);
+
+          if (result.success === true) {
+            showToast({ message: 'Đăng ký thành công!', success: true });
+            navigate('/login');
+          } else {
+            showToast({ message: result.message || 'Đăng ký thất bại.', success: false });
+          }
+
+        } catch (error) {
+          showToast({ message: error.message || 'Đăng ký thất bại. Vui lòng thử lại!', success: false });
+          console.error('Signup error:', error);
+        }
   };
 
   return (

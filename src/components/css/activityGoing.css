@@ -1,0 +1,104 @@
+/* ActivityGoing.css */
+.activity-con {
+    display: flex;
+    flex-direction: column;     /* Xếp dọc các item */
+    align-items: center;        /* Căn giữa theo chiều ngang */
+    justify-content: center;    /* Căn giữa theo chiều dọc nếu muốn */
+    min-height: 100vh;          /* Chiều cao tối thiểu toàn màn hình */
+    background-color: #f9f9f9;  /* Tuỳ chọn: màu nền nhẹ nhàng */
+    padding: 20px;
+  }
+.activity-going {
+    padding: 20px;
+    background-color: #f4f4f4;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #333;
+  }
+  .activity-going {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .activity-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background-color: #fff;
+    transition: transform 0.2s;
+    width: 500px;
+  }
+  
+  .activity-card:hover {
+    transform: scale(1.01);
+  }
+  
+  .activity-card p {
+    margin: 6px 0;
+    
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 30px;
+  }
+  
+  .pagination button {
+    padding: 8px 14px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+  }
+  
+  .pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .pagination button:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+  .activity-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px 24px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    max-width: 600px;
+  }
+  
+  .info-row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 8px;
+  }
+  
+  .info-label {
+    width: 140px;
+    font-weight: 600;
+    color: #333;
+    flex-shrink: 0; 
+    display: flex;
+    justify-content: flex-start;
+  }
+  
+  .info-value {
+    flex: 1;
+    color: #555;
+    word-break: break-word; 
+    display: flex;
+    justify-content: flex-start;
+  }
+  
