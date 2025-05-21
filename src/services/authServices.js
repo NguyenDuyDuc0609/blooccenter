@@ -1,10 +1,9 @@
 import axios from "axios";
 
-const API_URL = "https://localhost:7254/api/Auth/login";
 
 export const login = async (username, password) => {
   try {
-    const response = await axios.post(API_URL, { username, password });
+    const response = await axios.post("https://localhost:7254/api/Auth/login", { username, password });
     return response.data;
   } catch (error) {
     const message =
@@ -33,6 +32,20 @@ export const signup = async (UserName, Password, Email, FullName) => {
       error.response?.data?.message ||
       error.message ||
       "Đăng ký không thành công.";
+    throw new Error(message);
+  }
+};
+
+
+export const forgotPassword = async (email) => {
+  try {
+    const response = await axios.post("https://localhost:7254/api/Auth/", { email});
+    return response.data;
+  } catch (error) {
+    const message =
+      error.response?.data?.message ||
+      error.message ||
+      "Email không tồn tại";
     throw new Error(message);
   }
 };

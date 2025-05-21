@@ -46,7 +46,7 @@ export const ActivityGoing = () => {
           <div className="info-label">Giờ hoạt động:</div>
           <div className="info-value">{item.operatingHour}h</div>
           <div style={{margin: '0px 0px 0px 40px'}} className="info-value">
-            <SubmitButton/>
+            <SubmitButton onClick={() => console.log('Đã đăng ký')}/>
           </div>
         </div>
         <div className="info-row">
