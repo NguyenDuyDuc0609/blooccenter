@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useReducer } from 'react';
-import { login as loginService } from '../services/AuthServices';
+import { login as loginService } from '../services/authServices';
 
 const AuthContext = createContext(null);
 
@@ -31,8 +31,11 @@ export const AuthProvider = ({ children }) => {
   const login = async (username, password) => {
     const userData = await loginService(username, password);
     if(userData.success == true){
-        dispatch({ type: 'LOGIN', payload: userData });
-        localStorage.setItem('user', JSON.stringify(userData));
+      const { token, refreshToken, ...userInfo } = userData.data;
+        localStorage.setItem('accessToken',token);
+        localStorage.setItem('refreshToken', refreshToken);
+        localStorage.setItem('user', JSON.stringify(userInfo));
+        dispatch({type:'LOGIN', payload: userData});
     }
     return userData;
   };
