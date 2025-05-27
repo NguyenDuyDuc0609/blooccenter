@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useReducer } from 'react';
 import { login as loginService } from '../services/authServices';
-
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 const AuthContext = createContext(null);
 
 const initialState = {
@@ -20,9 +21,9 @@ const authReducer = (state, action) => {
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
-
+  const navigate = useNavigate();
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = Cookies.get('user');
     if (storedUser) {
       dispatch({ type: 'LOGIN', payload: JSON.parse(storedUser) });
     }
@@ -32,9 +33,9 @@ export const AuthProvider = ({ children }) => {
     const userData = await loginService(username, password);
     if(userData.success == true){
       const { token, refreshToken, ...userInfo } = userData.data;
-        localStorage.setItem('accessToken',token);
-        localStorage.setItem('refreshToken', refreshToken);
-        localStorage.setItem('user', JSON.stringify(userInfo));
+        Cookies.set('accessToken',token);
+        Cookies.set('refreshToken', refreshToken);
+        Cookies.set('user', JSON.stringify(userInfo));
         dispatch({type:'LOGIN', payload: userData});
     }
     return userData;
@@ -42,7 +43,10 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     dispatch({ type: 'LOGOUT' });
-    localStorage.removeItem('user');
+    Cookies.remove('accessToken');
+    Cookies.remove('refreshToken');
+    Cookies.remove('user');
+    navigate('/login');
   };
 
   return (

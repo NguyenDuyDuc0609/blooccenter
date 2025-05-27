@@ -4,33 +4,23 @@ import './css/ActivityGoing.css'
 import { SubmitButton } from './SubmitButton';
 import { getActivityGoing } from '../services/userServices';
 import { useState } from 'react';
+import { RegisterDonate } from '../services/userServices';
+import { useToast } from '../context/ToastContext';
+import Pagination from '@mui/material/Pagination';
+import PaginationItem from '@mui/material/PaginationItem';
+import Stack from '@mui/material/Stack';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 export const ActivityGoing = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = parseInt(searchParams.get('page')) || 1;
-
+  const {showToast} = useToast();
   const itemsPerPage = 3;
   const [data, setData] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const totalPages = Math.ceil(totalCount / itemsPerPage);
-  const renderPagination = () => {
-  const pages = [];
-  if (totalPages <= 3) {
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push(i);
-    }
-  } else {
-    if (currentPage <= 2) {
-      pages.push(1, 2, 3);
-    } else if (currentPage >= totalPages - 1) {
-      pages.push(totalPages - 2, totalPages - 1, totalPages);
-    } else {
-      pages.push(currentPage - 1, currentPage, currentPage + 1);
-    }
-  }
-  return pages;
-};
 
    useEffect(() => {
     const fetchData = async () => {
@@ -38,7 +28,6 @@ export const ActivityGoing = () => {
         setLoading(true);
         await new Promise((resolve) => setTimeout(resolve, 1000));
         const result = await getActivityGoing(currentPage, itemsPerPage);
-        console.log(result.data);
         setData(result.data); 
         setTotalCount(result.totalCount);
       } catch (error) {
@@ -51,13 +40,29 @@ export const ActivityGoing = () => {
     fetchData();
   }, [currentPage]);
 
-  const goToPage = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setSearchParams({ page: page.toString() });
-    }
+const handlePageChange = (event, page) => {
+    setSearchParams({ page: page.toString() });
   };
-const pages = renderPagination();
+const handleSubmit  = async (activityId) => {
+  try{
+      setLoading(true);
+      await new Promise((resolve) => setTimeout(resolve,1000));
+      const result = await RegisterDonate(activityId);
+      if(result.success){
+        showToast({message: result.message, success: true})
+      }
+      else{
+        showToast({message: result.message, success: false})
+      }
+  }
+  catch(error){
+    console.error(error.message);
+  }
+  finally{
+    setLoading(false);
+  }
 
+}
   return (
     <div className="activity-con">
       <h3 style={{margin: '40px'}}>Hoạt động đang diễn ra</h3>
@@ -70,14 +75,14 @@ const pages = renderPagination();
           <div className="info-value">{new Date(item.dateActivity).toLocaleDateString()}</div>
         </div>
         <div className="info-row">
-          <div className="info-label">Mã bệnh viện:</div>
-          <div className="info-value">{item.hospitalId}</div>
+          <div className="info-label">Mã hoạt động: </div>
+          <div className="info-value">{item.id}</div>
         </div>
         <div className="info-row">
           <div className="info-label">Giờ hoạt động:</div>
           <div className="info-value">{item.operatingHour}h</div>
           <div style={{margin: '0px 0px 0px 40px'}} className="info-value">
-            <SubmitButton onClick={() => console.log('Đã đăng ký')}/>
+            <SubmitButton onClick={() => handleSubmit(item.id)}/>
           </div>
         </div>
         <div className="info-row">
@@ -91,27 +96,19 @@ const pages = renderPagination();
       </div>
       ))}
 
-      <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '20px' }}>
-      {currentPage > 2 && totalPages > 3 && <span>...</span>}
-
-      {pages.map((page) => (
-        <button
-          key={page}
-          onClick={() => goToPage(page)}
-          style={{
-            backgroundColor: page === currentPage ? '#007bff' : '#fff',
-            color: page === currentPage ? '#fff' : '#000',
-            border: '1px solid #ccc',
-            borderRadius: '4px',
-            padding: '5px 10px',
-            cursor: 'pointer',
-          }}
-        >
-          {page}
-        </button>
-      ))}
-      {currentPage < totalPages - 1 && totalPages > 3 && <span>...</span>}
-    </div>
+      <Stack spacing={2} sx={{ justifyContent: 'center', marginTop: 4 }}>
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={handlePageChange}
+          renderItem={(item) => (
+            <PaginationItem
+              slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+              {...item}
+            />
+          )}
+        />
+      </Stack>
     </div>
   );
 };

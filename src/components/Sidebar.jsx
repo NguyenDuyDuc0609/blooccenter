@@ -2,8 +2,12 @@ import React from 'react';
 import './css/Side.css'
 import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
-
+import { useAuth } from '../context/AuthContext';
 export const Sidebar = () => {
+  const {logout} = useAuth();
+  const handleLogout = () => {
+          logout();
+      }
   return (
     <div className="container-sidebar">
       <h3 className="sidebar-title">Dashboard</h3>
@@ -24,7 +28,7 @@ export const Sidebar = () => {
             </NavLink>
         </li>
         <li>
-            <NavLink to="/" className="">Đăng xuất</NavLink> {/* không cần active */}
+            <NavLink onClick={handleLogout} to="/login" className="">Đăng xuất</NavLink> {/* không cần active */}
         </li>
         </ul>
 

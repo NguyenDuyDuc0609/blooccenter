@@ -31,14 +31,13 @@ export const Login = () => {
 
             if (userData.success === true) {
                 showToast({ message: 'Đăng nhập thành công!', success: true });
-                navigate('/');
+                navigate('/dashboard/activityGoing?page=1');
             } else {
                 showToast({ message: userData.message, success: false });
                 navigate('/login');
             }
             } catch (error) {
             showToast({ message: error.message || 'Đăng nhập thất bại.', success: false });
-            console.error('Login error:', error);
             } finally {
             hideLoading();
             }

@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Login } from './components/login';
+import { Login } from './components/Login';
 import { Signup } from './components/Signup';
 import { Homepage } from './pages/Homepage';
 import { AuthProvider } from './context/AuthContext';
@@ -14,10 +14,10 @@ import { LoadingProvider } from './context/LoadingContext';
 import { ToastProvider } from './context/ToastContext';
 function App() {
   return (
+    <BrowserRouter>
     <LoadingProvider>
       <ToastProvider>
         <AuthProvider>
-      <BrowserRouter>
       <Header/>
       <Routes>
           <Route path='/' element={<Homepage />} />
@@ -39,10 +39,10 @@ function App() {
             }
           /> */}
         </Routes>
-      </BrowserRouter>
     </AuthProvider>
       </ToastProvider>
     </LoadingProvider>
+    </BrowserRouter>
   );
 }
 
