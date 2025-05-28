@@ -40,15 +40,34 @@ export const RegisterDonate = async (hospitalId) => {
     throw new Error(message);
   }
 };
-export const HistoriesDonate = async (hospitalId) => {
+export const HistoriesDonate = async (currentPage, itemsPerPage) => {
+  try {
+    const response = await axiosInstance.get(
+      "https://localhost:7254/api/Donor/History",
+      {
+        params: {
+          pageNumber: currentPage,
+          pageSize: itemsPerPage,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    const message =
+      error.response?.data?.message ||
+      error.message ||
+      "Yêu cầu lịch sử không thành công";
+    throw new Error(message);
+  }
+};
+export const CancelDonation = async(hospitalId) => {
   try{
-    const response = await  axiosInstance.get("https://localhost:7254/api/Donor/History",{
+    const response = await axiosInstance.post("https://localhost:7254/api/Donor/CancelDonation",{
       hospitalId
     })
-    console.log(response);
-    return response;
+    return response.data;
   }
-  catch(error){
+  catch (error) {
     const message =
       error.response?.data?.message ||
       error.message ||

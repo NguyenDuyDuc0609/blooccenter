@@ -61,7 +61,6 @@ const handleSubmit  = async (activityId) => {
   finally{
     setLoading(false);
   }
-
 }
   return (
     <div className="activity-con">
@@ -82,7 +81,7 @@ const handleSubmit  = async (activityId) => {
           <div className="info-label">Giờ hoạt động:</div>
           <div className="info-value">{item.operatingHour}h</div>
           <div style={{margin: '0px 0px 0px 40px'}} className="info-value">
-            <SubmitButton onClick={() => handleSubmit(item.id)}/>
+            <SubmitButton onClick={() => handleSubmit(item.id)}>Đăng ký</SubmitButton>
           </div>
         </div>
         <div className="info-row">
