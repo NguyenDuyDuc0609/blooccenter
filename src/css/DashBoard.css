@@ -10,7 +10,6 @@ html, body {
     flex-direction: row; 
     align-items: stretch; 
     justify-content: flex-start;
-    background-color: aquamarine;
     margin-top: 100px; 
     padding: 0;
     overflow: hidden;

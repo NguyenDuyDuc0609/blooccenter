@@ -69,30 +69,30 @@ const handleSubmit  = async (activityId) => {
         <p>Đang tải dữ liệu...</p>
       ) : data.map((item) => (
         <div key={item.id} className="activity-card">
-        <div className="info-row">
-          <div className="info-label">Ngày:</div>
-          <div className="info-value">{new Date(item.dateActivity).toLocaleDateString()}</div>
-        </div>
-        <div className="info-row">
-          <div className="info-label">Mã hoạt động: </div>
-          <div className="info-value">{item.id}</div>
-        </div>
-        <div className="info-row">
-          <div className="info-label">Giờ hoạt động:</div>
-          <div className="info-value">{item.operatingHour}h</div>
-          <div style={{margin: '0px 0px 0px 40px'}} className="info-value">
+          <div className="info-row">
+            <div className="info-label">Ngày:</div>
+            <div className="info-value">{new Date(item.dateActivity).toLocaleDateString()}</div>
+          </div>
+          <div className="info-row">
+            <div className="info-label">Mã hoạt động: </div>
+            <div className="info-value">{item.id}</div>
+          </div>
+          <div className="info-row">
+            <div className="info-label">Giờ hoạt động:</div>
+            <div className="info-value">{item.operatingHour}h</div>
+          </div>
+          <div className="info-row">
+            <div className="info-label">Số lượng cần:</div>
+            <div className="info-value">{item.quantity}</div>
+          </div>
+          <div className="info-row">
+            <div className="info-label">Đã đăng ký:</div>
+            <div className="info-value">{item.numberIsRegistration}</div>
+          </div>
+          <div className="card-footer">
             <SubmitButton onClick={() => handleSubmit(item.id)}>Đăng ký</SubmitButton>
           </div>
         </div>
-        <div className="info-row">
-          <div className="info-label">Số lượng cần:</div>
-          <div className="info-value">{item.quantity}</div>
-        </div>
-        <div className="info-row">
-          <div className="info-label">Đã đăng ký:</div>
-          <div className="info-value">{item.numberIsRegistration}</div>
-        </div>
-      </div>
       ))}
 
       <Stack spacing={2} sx={{ justifyContent: 'center', marginTop: 4 }}>

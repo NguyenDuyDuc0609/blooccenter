@@ -44,7 +44,6 @@ export const Histories = () => {
         setLoading(true);
         await new Promise((resolve) => setTimeout(resolve,1000));
         const result = await CancelDonation(activityId);
-        fetchData();
         if(result.success){
           console.log(result);
           showToast({message: result.message, success: true})
@@ -52,6 +51,7 @@ export const Histories = () => {
         else{
           showToast({message: result.message, success: false})
         }
+        await fetchData();
     }
     catch(error){
       console.error(error.message);

@@ -75,3 +75,39 @@ export const CancelDonation = async(hospitalId) => {
     throw new Error(message);
   }
 }
+export const getInforUser = async () => {
+  try {
+    const response = await axiosInstance.get(
+      "https://localhost:7254/api/Donor/Getinformation"
+    );
+    return response.data;
+  } catch (error) {
+    const message =
+      error.response?.data?.message ||
+      error.message ||
+      "Yêu cầu thông tin người dùng không thành công";
+    throw new Error(message);
+  }
+}
+export const updateInforUser = async (data) => {
+  try {
+    console.log(data);
+    const response = await axiosInstance.put(
+      "https://localhost:7254/api/Donor/Changeinforamtion",{
+      Username: data.username,
+      FullName : data.fullName,
+      Email : data.email,
+      PhoneNumber: data.phoneNumber,
+      Note: data.note,
+      StatusAccount: data.statusAccount
+      }
+    );
+    return response.data;
+  } catch (error) {
+    const message =
+      error.response?.data?.message ||
+      error.message ||
+      "Cập nhật thông tin người dùng không thành công";
+    throw new Error(message);
+  }
+}

@@ -3,9 +3,9 @@ import { login as loginService } from '../services/authServices';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 const AuthContext = createContext(null);
-
 const initialState = {
   user: null,
+  isLoading: true
 };
 
 const authReducer = (state, action) => {
@@ -14,6 +14,8 @@ const authReducer = (state, action) => {
       return { ...state, user: action.payload };
     case 'LOGOUT':
       return { ...state, user: null };
+    case 'STOP_LOADING':
+      return { ...state, isLoading: false };
     default:
       return state;
   }
@@ -22,21 +24,30 @@ const authReducer = (state, action) => {
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
   const navigate = useNavigate();
+
   useEffect(() => {
     const storedUser = Cookies.get('user');
-    if (storedUser) {
-      dispatch({ type: 'LOGIN', payload: JSON.parse(storedUser) });
+    try {
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        dispatch({ type: 'LOGIN', payload: parsedUser });
+      }
+      dispatch({ type: 'STOP_LOADING' });
+    } catch (error) {
+      console.error('Cookie parse lỗi:', error);
+      Cookies.remove('user');
+      dispatch({ type: 'STOP_LOADING' });
     }
   }, []);
 
   const login = async (username, password) => {
     const userData = await loginService(username, password);
-    if(userData.success == true){
+    if (userData.success === true) {
       const { token, refreshToken, ...userInfo } = userData.data;
-        Cookies.set('accessToken',token);
-        Cookies.set('refreshToken', refreshToken);
-        Cookies.set('user', JSON.stringify(userInfo));
-        dispatch({type:'LOGIN', payload: userData});
+      Cookies.set('accessToken', token);
+      Cookies.set('refreshToken', refreshToken);
+      Cookies.set('user', JSON.stringify(userInfo));
+      dispatch({ type: 'LOGIN', payload: userInfo });
     }
     return userData;
   };
@@ -50,7 +61,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user: state.user, login, logout }}>
+    <AuthContext.Provider value={{ user: state.user, login, logout, isLoading: state.isLoading }}>
       {children}
     </AuthContext.Provider>
   );
