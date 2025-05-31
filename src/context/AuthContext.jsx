@@ -59,9 +59,13 @@ export const AuthProvider = ({ children }) => {
     Cookies.remove('user');
     navigate('/login');
   };
+  const updateUser = (user) => {
+    Cookies.set('user', JSON.stringify(user));
+    dispatch({ type: 'LOGIN', payload: user });
+  };
 
   return (
-    <AuthContext.Provider value={{ user: state.user, login, logout, isLoading: state.isLoading }}>
+    <AuthContext.Provider value={{ user: state.user, login, logout, isLoading: state.isLoading, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

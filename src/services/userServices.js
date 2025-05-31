@@ -91,7 +91,6 @@ export const getInforUser = async () => {
 }
 export const updateInforUser = async (data) => {
   try {
-    console.log(data);
     const response = await axiosInstance.put(
       "https://localhost:7254/api/Donor/Changeinforamtion",{
       Username: data.username,
@@ -104,10 +103,11 @@ export const updateInforUser = async (data) => {
     );
     return response.data;
   } catch (error) {
-    const message =
-      error.response?.data?.message ||
-      error.message ||
-      "Cập nhật thông tin người dùng không thành công";
-    throw new Error(message);
-  }
+  console.error("Update error:", error, error.response);
+  const message =
+    error.response?.data?.message ||
+    error.message ||
+    "Cập nhật thông tin người dùng không thành công";
+  throw new Error(message);
+}
 }

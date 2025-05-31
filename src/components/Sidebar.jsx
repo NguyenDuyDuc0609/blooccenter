@@ -3,17 +3,25 @@ import './css/Side.css'
 import { Link } from 'react-router-dom';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useState } from 'react';
+import { CommitLogout } from './CommitLogout';
 export const Sidebar = () => {
   const { logout } = useAuth();
   const location = useLocation();
   const isUserInfoActive =
     location.pathname === '/dashboard/inforUser' ||
     location.pathname === '/dashboard/changePassword';
-
+  const [showLogout, setShowLogout] = useState(false);  
   const handleLogout = () => {
+    setShowLogout(true); 
+  }
+  const handleCancelLogout = () => {
+    setShowLogout(false); 
+  }
+  const handleConfirmLogout = () => {
     logout();
-  };
-
+    setShowLogout(false);
+  }
   return (
     <div className="container-sidebar">
       <ul className="sidebar-menu">
@@ -43,10 +51,14 @@ export const Sidebar = () => {
           </ul>
         </li>
         <li>
-          <NavLink onClick={handleLogout} to="/login" className="">Đăng xuất</NavLink> {/* không cần active */}
+          <button type="button" className="logout-btn" onClick={handleLogout}>
+            Đăng xuất
+          </button>
         </li>
         </ul>
-
+      {showLogout && (
+        <CommitLogout onConfirm={handleConfirmLogout} onCancel={handleCancelLogout} />
+      )}
     </div>
   );
 };

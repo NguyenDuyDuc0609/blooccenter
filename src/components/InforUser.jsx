@@ -3,9 +3,10 @@ import './css/Histories.css'
 import { SubmitButton } from './SubmitButton'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
-import { getInforUser, updateInforUser } from '../services/userServices'
+import { updateInforUser } from '../services/userServices'
+
 export const InforUser = () => {
-  const {user} = useAuth();
+  const { user, updateUser } = useAuth();
   const [editMode, setEditMode] = useState(false)
   const { showToast } = useToast();
   const [inforUser, setUser] = useState({
@@ -16,71 +17,75 @@ export const InforUser = () => {
     note: '',
     statusAccount: ''
   });
-  const fetchUser = async () => {
-      try {
-        const response = await getInforUser();
-        if (response.success) {
-          setUser({
-            username: response.data.username,
-            fullName: response.data.fullName,
-            email: response.data.email,
-            phoneNumber: response.data.phoneNumber,
-            note: response.data.note,
-            statusAccount: response.data.statusAccount
-          });
-        } else {
-          return;
-        }
-      } catch (error) {
-        showToast({ message: error.message || 'Lấy thông tin người dùng thất bại.', success: false });
-        console.error('Error fetching user information:', error);
-      }
-    };
   useEffect(() => {
-    
-   fetchUser();
-  }, [])
+    if (user) {
+      setUser({
+        username: user.userName || '',
+        fullName: user.fullName || '',
+        email: user.email || '',
+        phoneNumber: user.phoneNumber || '',
+        note: user.note || '',
+        statusAccount: user.statusAccount ?? ''
+      });
+    }
+  }, [user]);
 
   if (!user) {
-  return (
-    <div className="histories-container fade-in">
-      <h3>Thông tin người dùng</h3>
-      <p style={{ color: 'red', textAlign: 'center', margin: '40px 0' }}>
-        Vui lòng đăng nhập để xem thông tin cá nhân.
-      </p>
-    </div>
-  );
-}
+    return (
+      <div className="histories-container fade-in">
+        <h3>Thông tin người dùng</h3>
+        <p style={{ color: 'red', textAlign: 'center', margin: '40px 0' }}>
+          Vui lòng đăng nhập để xem thông tin cá nhân.
+        </p>
+      </div>
+    );
+  }
+
   const handleChange = () => {
     setEditMode(true)
   }
-const handleInputChange = (e) => {
-  const { name, value } = e.target
-  setUser((prevUser) => ({
-    ...prevUser,
-    [name]: value
-  }))
-}
-const handleUpdate = async () => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: value
+    }))
+  }
+  const handleUpdate = async () => {
     setEditMode(false);
-    try{
+    try {
       const response = await updateInforUser(inforUser);
       if (response.success) {
         showToast({ message: response.message, success: true });
-        await fetchUser();
+        updateUser({
+          ...user,
+          userName: inforUser.username,
+          fullName: inforUser.fullName,
+          email: inforUser.email,
+          phoneNumber: inforUser.phoneNumber,
+          note: inforUser.note,
+          statusAccount: inforUser.statusAccount
+        });
       } else {
         showToast({ message: response.message || 'Cập nhật thông tin người dùng thất bại.', success: false });
       }
     }
-    catch(error){
+    catch (error) {
       showToast({ message: error.message || 'Cập nhật thông tin người dùng thất bại.', success: false });
       console.error('Error updating user information:', error);
     }
   }
 
-  const handleCancel = async () => {
+  const handleCancel = () => {
+    setUser({
+      username: user.userName || '',
+      fullName: user.fullName || '',
+      email: user.email || '',
+      phoneNumber: user.phoneNumber || '',
+      note: user.note || '',
+      statusAccount: user.statusAccount ?? ''
+    });
     setEditMode(false);
-    await fetchUser();
   }
 
   return (
@@ -91,35 +96,36 @@ const handleUpdate = async () => {
           <div>
             <label>Tên đăng nhập:</label>
             <input type="text" value={inforUser.username || ''}
-            name="username" readOnly={!editMode}
-            onChange={handleInputChange} />
+              name="username" readOnly={!editMode}
+              onChange={handleInputChange} />
           </div>
           <div>
             <label>Họ tên:</label>
             <input type="text" value={inforUser.fullName || ''}
-            name="fullName" readOnly={!editMode}
-            onChange={handleInputChange} />
+              name="fullName" readOnly={!editMode}
+              onChange={handleInputChange} />
           </div>
           <div>
             <label>Email:</label>
             <input type="text" value={inforUser.email || ''}
-            name="email" readOnly={!editMode}
-            onChange={handleInputChange} />
+              name="email" readOnly={!editMode}
+              onChange={handleInputChange} />
           </div>
           <div>
             <label>Số điện thoại:</label>
             <input type="text" value={inforUser.phoneNumber || ''}
-            name="phoneNumber" readOnly={!editMode}
-            onChange={handleInputChange} />
+              name="phoneNumber" readOnly={!editMode}
+              onChange={handleInputChange} />
           </div>
           <div>
             <label>Ghi chú:</label>
-            <input type="text" value={inforUser.note || ''} readOnly
-            onChange={handleInputChange} />
+            <input type="text" value={inforUser.note || ''}
+              name="note" readOnly={!editMode}
+              onChange={handleInputChange} />
           </div>
           <div>
             <label>Trạng thái:</label>
-            <input type="text" value={inforUser.statusAccount === 0 ? 'Actived': 'Locked'} readOnly />
+            <input type="text" value={inforUser.statusAccount === 0 ? 'Actived' : 'Locked'} readOnly />
           </div>
         </form>
         {!editMode ? (
