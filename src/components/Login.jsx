@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useLoading } from '../context/LoadingContext';
 import { useToast } from '../context/ToastContext';
+import { forgotPassword } from '../services/authServices';
+import { ForgotPassword } from './ForgotPassword';
 export const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -13,14 +15,33 @@ export const Login = () => {
     const { login } = useAuth(); 
     const { showLoading, hideLoading } = useLoading();
     const { showToast } = useToast();
+    const [showForgotPassword, setShowForgotPassword] = useState(false);
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
     };
-
+    const handleForgotPassword = () => {
+        setShowForgotPassword(true);
+    }
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
     };
-
+    const handleSendEmail = async (email) => {
+        showLoading();
+        try {
+            const res = await forgotPassword(email);
+            if (res.success) {
+            showToast({ message: res.message || "Đã gửi email đặt lại mật khẩu!", success: true });
+            setShowForgotPassword(false);
+            } else {
+            showToast({ message: res.message || "Gửi email thất bại.", success: false });
+            }
+        } catch (error) {
+            showToast({ message: error.message || 'Gửi email thất bại.', success: false });
+        } finally {
+            hideLoading();
+            setShowForgotPassword(false);
+        }
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
         showLoading();
@@ -60,16 +81,19 @@ export const Login = () => {
 
                 <div className="row mb-4">
                     <div className="col">
-                        <a href="#!">Forgot password?</a>
+                        <a href="#!" onClick={handleForgotPassword}>Forgot password?</a>
                     </div>
                 </div>
 
                 <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary btn-block mb-4">Login</button>
 
                 <div className="text-center">
-                    <p>Not a member? Not a member? <Link to="/signup">Register</Link></p>
+                    <p>Not a member? <Link to="/signup">Register</Link></p>
                 </div>
             </form>
+            {showForgotPassword && (
+                <ForgotPassword onSubmit={handleSendEmail} onCancel={() => setShowForgotPassword(false)}/>
+            )}
         </div>
     );
 };

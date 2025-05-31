@@ -111,3 +111,22 @@ export const updateInforUser = async (data) => {
   throw new Error(message);
 }
 }
+export const changePassword = async (data) => {
+  try {
+    const response = await axiosInstance.post(
+      "https://localhost:7254/api/Auth/ChangePassword",
+      {
+        username: data.username,
+        password: data.currentPassword,
+        newPassword: data.newPassword,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    const message =
+      error.response?.data?.message ||
+      error.message ||
+      "Đổi mật khẩu không thành công";
+    throw new Error(message);
+  }
+}

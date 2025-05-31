@@ -12,6 +12,7 @@ import { InforUser } from './components/InforUser';
 import { Histories } from './components/Histories';
 import { LoadingProvider } from './context/LoadingContext';
 import { ToastProvider } from './context/ToastContext';
+import { ChangePassword } from './components/ChangePassword';
 function App() {
   return (
     <BrowserRouter>
@@ -29,6 +30,7 @@ function App() {
             <Route path='activityGoing' element={<ActivityGoing />} />
             <Route path='inforUser' element={<InforUser />} />
             <Route path='histories' element={<Histories />} />
+            <Route path='changePassword' element={<ChangePassword />} />
           </Route>
           {/* <Route
             path="/dashboard"
