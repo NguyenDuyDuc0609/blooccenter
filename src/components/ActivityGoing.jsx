@@ -11,7 +11,8 @@ import PaginationItem from '@mui/material/PaginationItem';
 import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-
+import { useAxiosPublic } from '../hooks/useAxiosPublic';
+import { useAxios } from '../hooks/useAxiosPrivate';
 export const ActivityGoing = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = parseInt(searchParams.get('page')) || 1;
@@ -21,13 +22,14 @@ export const ActivityGoing = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const totalPages = Math.ceil(totalCount / itemsPerPage);
-
+  const { request : requestPublic } = useAxiosPublic();
+  const { request : requestPrivate } = useAxios();
    useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        const result = await getActivityGoing(currentPage, itemsPerPage);
+        const result = await requestPublic(getActivityGoing(currentPage, itemsPerPage));
         setData(result.data); 
         setTotalCount(result.totalCount);
       } catch (error) {
@@ -47,7 +49,7 @@ const handleSubmit  = async (activityId) => {
   try{
       setLoading(true);
       await new Promise((resolve) => setTimeout(resolve,1000));
-      const result = await RegisterDonate(activityId);
+      const result = await requestPrivate(RegisterDonate(activityId));
       if(result.success){
         showToast({message: result.message, success: true})
       }

@@ -10,7 +10,7 @@ import PaginationItem from '@mui/material/PaginationItem';
 import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-
+import { useAxios } from '../hooks/useAxiosPrivate';
 export const Histories = () => {
   const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -18,13 +18,14 @@ export const Histories = () => {
   const {showToast} = useToast();
   const itemsPerPage = 3;
   const [data, setData] = useState([]);
+  const { request } = useAxios();
   const [totalCount, setTotalCount] = useState(0);
   const totalPages = Math.ceil(totalCount / itemsPerPage);
   const fetchData = async () => {
         try {
           setLoading(true);
           await new Promise((resolve) => setTimeout(resolve, 1000));
-          const result = await HistoriesDonate(currentPage, itemsPerPage);
+          const result = await request(HistoriesDonate(currentPage, itemsPerPage));
           setData(result.data.data); 
           setTotalCount(result.totalCount);
         } catch (error) {
@@ -43,7 +44,7 @@ export const Histories = () => {
     try{
         setLoading(true);
         await new Promise((resolve) => setTimeout(resolve,1000));
-        const result = await CancelDonation(activityId);
+        const result = await request(CancelDonation(activityId));
         if(result.success){
           console.log(result);
           showToast({message: result.message, success: true})

@@ -6,8 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useLoading } from '../context/LoadingContext';
 import { useToast } from '../context/ToastContext';
-import { forgotPassword } from '../services/authServices';
+import { forgotPasswordConfig } from '../services/authServices';
 import { ForgotPassword } from './ForgotPassword';
+import { ResetPassword } from './ResetPassword';
+import { resetPassword } from '../services/userServices';
+import { useAxiosPublic } from '../hooks/useAxiosPublic';
 export const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -16,6 +19,9 @@ export const Login = () => {
     const { showLoading, hideLoading } = useLoading();
     const { showToast } = useToast();
     const [showForgotPassword, setShowForgotPassword] = useState(false);
+    const [showResetPassword, setShowResetPassword] = useState(false);
+    const [userData, setUserData] = useState('');
+    const {request} = useAxiosPublic();
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
     };
@@ -28,11 +34,12 @@ export const Login = () => {
     const handleSendEmail = async (email) => {
         showLoading();
         try {
-            const res = await forgotPassword(email);
+            const res = await request(forgotPasswordConfig(email));
             if (res.success) {
             showToast({ message: res.message || "Đã gửi email đặt lại mật khẩu!", success: true });
             setShowForgotPassword(false);
-            } else {
+            }
+            else {
             showToast({ message: res.message || "Gửi email thất bại.", success: false });
             }
         } catch (error) {
@@ -49,11 +56,16 @@ export const Login = () => {
         hideLoading();
         try {
             const userData = await login(username, password);
-
             if (userData.success === true) {
                 showToast({ message: 'Đăng nhập thành công!', success: true });
                 navigate('/dashboard/activityGoing?page=1');
-            } else {
+            }
+            else if(userData.data !== null && userData.data !== undefined) {
+                showToast({ message: userData.message, success: false });
+                setUserData(userData.data);
+                setShowResetPassword(true);
+            }
+            else {
                 showToast({ message: userData.message, success: false });
                 navigate('/login');
             }
@@ -63,7 +75,25 @@ export const Login = () => {
             hideLoading();
             }
     };
-
+    const handleResetPassword = async (form) => {
+        showLoading();
+        try{
+            const res = await request(resetPassword((form)));
+            if (res.success) {
+                showToast({ message: res.message || "Đặt lại mật khẩu thành công!", success: true });
+                navigate('/login');
+            } else {
+                showToast({ message: res.message || "Đặt lại mật khẩu thất bại.", success: false });
+            }
+        }
+        catch (error) {
+            showToast({ message: error.message || 'Đặt lại mật khẩu thất bại.', success: false });
+        } finally {
+            hideLoading();
+            setShowResetPassword(false);
+        }
+        setUserData('');
+    }
     return (
         <div className="d-flex justify-content-center align-items-center mx-auto" style={{ height: '100vh', width: '500px' }}>
             <form className="mt-20 w-300" style={{ width: '400px' }} onSubmit={handleSubmit}>
@@ -93,6 +123,9 @@ export const Login = () => {
             </form>
             {showForgotPassword && (
                 <ForgotPassword onSubmit={handleSendEmail} onCancel={() => setShowForgotPassword(false)}/>
+            )}
+            {showResetPassword && (
+                <ResetPassword username={userData} onSubmit={handleResetPassword} onCancel={() => setShowResetPassword(false)} />
             )}
         </div>
     );

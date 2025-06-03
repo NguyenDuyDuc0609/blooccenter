@@ -4,7 +4,7 @@ import { SubmitButton } from './SubmitButton'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
 import { updateInforUser } from '../services/userServices'
-
+import { useAxios } from '../hooks/useAxiosPrivate'
 export const InforUser = () => {
   const { user, updateUser } = useAuth();
   const [editMode, setEditMode] = useState(false)
@@ -17,6 +17,7 @@ export const InforUser = () => {
     note: '',
     statusAccount: ''
   });
+  const { request } = useAxios();
   useEffect(() => {
     if (user) {
       setUser({
@@ -54,7 +55,7 @@ export const InforUser = () => {
   const handleUpdate = async () => {
     setEditMode(false);
     try {
-      const response = await updateInforUser(inforUser);
+      const response = await request(updateInforUser(inforUser));
       if (response.success) {
         showToast({ message: response.message, success: true });
         updateUser({

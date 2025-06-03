@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { changePassword } from "../services/userServices";
 import { useToast } from "../context/ToastContext";
-
+import { useAxios } from "../hooks/useAxios";
 export const ChangePassword = () => {
   const { user } = useAuth();
   const { showToast } = useToast();
@@ -12,7 +12,7 @@ export const ChangePassword = () => {
     rePassword: ""
   });
   const [loading, setLoading] = useState(false);
-
+  const { request } = useAxios();
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -29,11 +29,11 @@ export const ChangePassword = () => {
     }
     setLoading(true);
     try {
-      const res = await changePassword({
+      const res = await request(changePassword({
         username: user?.userName,
         currentPassword: form.currentPassword,
         newPassword: form.newPassword
-      });
+      }));
       if (res.success) {
         showToast({ message: res.message || "Đổi mật khẩu thành công!", success: true });
         setForm({ currentPassword: "", newPassword: "", rePassword: "" });

@@ -62,3 +62,10 @@ axiosInstance.interceptors.response.use(
 );
 
 export default axiosInstance;
+
+export const axiosPublic = axios.create({
+  baseURL: "https://localhost:7254/api",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});

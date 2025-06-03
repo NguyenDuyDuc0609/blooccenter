@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { signup } from '../services/authServices';
+import { signupConfig } from '../services/authServices';
 import { useToast } from '../context/ToastContext';
 import { useLoading } from '../context/LoadingContext';
+import { useAxiosPublic } from '../hooks/useAxiosPublic';
 export const Signup = () => {
   const [UserName, setUsername] = useState('');
   const [Password, setPassword] = useState('');
@@ -11,6 +12,7 @@ export const Signup = () => {
   const [RepeatPassword, setRepeatPassword] = useState('');
   const {showToast} = useToast();
    const { showLoading, hideLoading } = useLoading();
+   const {request} = useAxiosPublic();
   const navigate = useNavigate();
 
   const handleUsernameChange = (e) => {
@@ -40,7 +42,7 @@ export const Signup = () => {
     }
 
     try {
-          const result = await signup(UserName, Password, Email, FullName);
+          const result = await request(signupConfig(UserName, Password, Email, FullName));
 
           if (result.success === true) {
             showToast({ message: 'Đăng ký thành công!', success: true });
@@ -66,7 +68,7 @@ export const Signup = () => {
                   <div className="row justify-content-center">
                     <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                       <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
-                      <form className="mx-1 mx-md-4" onSubmit={handleSubmit}> {/* Add onSubmit */}
+                      <form className="mx-1 mx-md-4" onSubmit={handleSubmit}>
                         <div className="d-flex flex-row align-items-center mb-3">
                           <i className="fas fa-user fa-lg me-3 fa-fw"></i>
                           <div className="form-outline flex-fill mb-0" data-mdb-input-init="">
