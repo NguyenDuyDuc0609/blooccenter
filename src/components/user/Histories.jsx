@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import './css/ActivityGoing.css'
-import { SubmitButton } from './SubmitButton';
-import { CancelDonation, HistoriesDonate } from '../services/userServices';
+import '../css/ActivityGoing.css'
+import { SubmitButton } from '../common/SubmitButton';
+import { CancelDonation, HistoriesDonate } from '../../services/userServices';
 import { useState } from 'react';
-import { useToast } from '../context/ToastContext';
+import { useToast } from '../../context/ToastContext';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { useAxios } from '../hooks/useAxiosPrivate';
+import { useAxios } from '../../hooks/useAxios';
 export const Histories = () => {
   const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();

@@ -1,18 +1,18 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Login } from './components/Login';
-import { Signup } from './components/Signup';
+import { Login } from './components/auth/Login';
+import { Signup } from './components/auth/Signup';
 import { Homepage } from './pages/Homepage';
 import { AuthProvider } from './context/AuthContext';
-import { Header } from './components/Header';
+import { Header } from './components/layout/Header';
 import { DashBoard } from './pages/DashBoard';
 import { ProtectRoute } from './parts/ProtectRoute';
-import { ActivityGoing } from './components/ActivityGoing';
-import { InforUser } from './components/InforUser';
-import { Histories } from './components/Histories';
+import { ActivityGoing } from './components/user/ActivityGoing';
+import { InforUser } from './components/user/InforUser';
+import { Histories } from './components/user/Histories';
 import { LoadingProvider } from './context/LoadingContext';
 import { ToastProvider } from './context/ToastContext';
-import { ChangePassword } from './components/ChangePassword';
+import { ChangePassword } from './components/auth/ChangePassword';
 function App() {
   return (
     <BrowserRouter>

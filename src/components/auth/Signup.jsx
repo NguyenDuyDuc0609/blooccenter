@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { signupConfig } from '../services/authServices';
-import { useToast } from '../context/ToastContext';
-import { useLoading } from '../context/LoadingContext';
-import { useAxiosPublic } from '../hooks/useAxiosPublic';
+import { signupConfig } from '../../services/authServices';
+import { useToast } from '../../context/ToastContext';
+import { useLoading } from '../../context/LoadingContext';
+import { useAxiosPublic } from '../../hooks/useAxiosPublic';
 export const Signup = () => {
   const [UserName, setUsername] = useState('');
   const [Password, setPassword] = useState('');

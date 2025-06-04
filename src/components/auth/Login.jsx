@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import './css/Login.css';
+import '../css/Login.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { useLoading } from '../context/LoadingContext';
-import { useToast } from '../context/ToastContext';
-import { forgotPasswordConfig } from '../services/authServices';
-import { ForgotPassword } from './ForgotPassword';
+import { useLoading } from '../../context/LoadingContext';
+import { useToast } from '../../context/ToastContext';
+import { forgotPasswordConfig } from '../../services/authServices';
+import { ForgotPassword } from '../auth/ForgotPassword';
 import { ResetPassword } from './ResetPassword';
-import { resetPassword } from '../services/userServices';
-import { useAxiosPublic } from '../hooks/useAxiosPublic';
+import { resetPassword } from '../../services/userServices';
+import { useAxiosPublic } from '../../hooks/useAxiosPublic';
 export const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

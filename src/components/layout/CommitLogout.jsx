@@ -1,5 +1,5 @@
 import React from "react";
-import "./css/CommitLogout.css";
+import "../css/CommitLogout.css";
 
 export const CommitLogout = ({ onConfirm, onCancel }) => {
   return (

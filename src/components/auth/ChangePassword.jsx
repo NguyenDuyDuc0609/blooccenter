@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import { changePassword } from "../services/userServices";
-import { useToast } from "../context/ToastContext";
-import { useAxios } from "../hooks/useAxios";
+import { useAuth } from "../../context/AuthContext";
+import { changePassword } from "../../services/userServices";
+import { useToast } from "../../context/ToastContext";
+import { useAxios } from "../../hooks/useAxios";
 export const ChangePassword = () => {
   const { user } = useAuth();
   const { showToast } = useToast();

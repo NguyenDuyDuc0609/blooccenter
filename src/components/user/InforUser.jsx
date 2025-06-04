@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import './css/Histories.css'
-import { SubmitButton } from './SubmitButton'
-import { useAuth } from '../context/AuthContext'
-import { useToast } from '../context/ToastContext'
-import { updateInforUser } from '../services/userServices'
-import { useAxios } from '../hooks/useAxiosPrivate'
+import '../css/Histories.css'
+import { SubmitButton } from '../common/SubmitButton'
+import { useAuth } from '../../context/AuthContext'
+import { useToast } from '../../context/ToastContext'
+import { updateInforUser } from '../../services/userServices'
+import { useAxios } from '../../hooks/useAxios'
 export const InforUser = () => {
   const { user, updateUser } = useAuth();
   const [editMode, setEditMode] = useState(false)

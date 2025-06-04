@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import './css/ActivityGoing.css'
-import { SubmitButton } from './SubmitButton';
-import { getActivityGoing } from '../services/userServices';
+import '../css/ActivityGoing.css'
+import { SubmitButton } from '../common/SubmitButton';
+import { getActivityGoing } from '../../services/userServices';
 import { useState } from 'react';
-import { RegisterDonate } from '../services/userServices';
-import { useToast } from '../context/ToastContext';
+import { RegisterDonate } from '../../services/userServices';
+import { useToast } from '../../context/ToastContext';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { useAxiosPublic } from '../hooks/useAxiosPublic';
-import { useAxios } from '../hooks/useAxiosPrivate';
+import { useAxiosPublic } from '../../hooks/useAxiosPublic';
+import { useAxios } from '../../hooks/useAxios';
 export const ActivityGoing = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = parseInt(searchParams.get('page')) || 1;

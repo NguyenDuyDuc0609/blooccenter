@@ -1,10 +1,10 @@
 import React from 'react';
-import './css/Side.css'
+import '../css/Side.css'
 import { Link } from 'react-router-dom';
 import { NavLink, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import { useState } from 'react';
-import { CommitLogout } from './CommitLogout';
+import { CommitLogout } from '../layout/CommitLogout';
 export const Sidebar = () => {
   const { logout } = useAuth();
   const location = useLocation();

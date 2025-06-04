@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./css/CommitLogout.css"; 
+import "../css/CommitLogout.css"; 
 
 export const ResetPassword = ({ username, onSubmit, onCancel }) => {
   const [form, setForm] = useState({

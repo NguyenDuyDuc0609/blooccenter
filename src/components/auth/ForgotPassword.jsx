@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./css/CommitLogout.css"; // Tận dụng lại CSS overlay/modal
+import "../css/CommitLogout.css"; // Tận dụng lại CSS overlay/modal
 
 export const ForgotPassword = ({ onSubmit, onCancel }) => {
   const [email, setEmail] = useState("");

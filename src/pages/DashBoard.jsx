@@ -1,5 +1,5 @@
 import React from 'react'
-import { Sidebar } from '../components/Sidebar'
+import { Sidebar } from '../components/user/Sidebar'
 import '../css/DashBoard.css'
 import { Outlet, Navigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
