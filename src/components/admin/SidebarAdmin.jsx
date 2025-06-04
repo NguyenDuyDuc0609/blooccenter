@@ -1,7 +1,7 @@
 import React from 'react';
-import './css/Side.css'
+import '../css/Side.css'
 import { Link } from 'react-router-dom';
-export const Sidebar = () => {
+export const SidebarAdmin = () => {
   
   return (
     <div className="container-sidebar">

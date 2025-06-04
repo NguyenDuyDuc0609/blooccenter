@@ -26,12 +26,12 @@ export const Sidebar = () => {
     <div className="container-sidebar">
       <ul className="sidebar-menu">
         <li>
-          <NavLink to="/dashboard/activityGoing" className={({ isActive }) => isActive ? "active" : ""}>
+          <NavLink to="/dashboard/donor/activityGoing" className={({ isActive }) => isActive ? "active" : ""}>
             Hoạt động đang diễn ra
           </NavLink>
         </li>
         <li>
-          <NavLink to="/dashboard/histories" className={({ isActive }) => isActive ? "active" : ""}>
+          <NavLink to="/dashboard/donor/histories" className={({ isActive }) => isActive ? "active" : ""}>
             Lịch sử hiến máu
           </NavLink>
         </li>
@@ -39,12 +39,12 @@ export const Sidebar = () => {
           <span className={`submenu-title${isUserInfoActive ? " active" : ""}`}>Thông tin người dùng</span>
           <ul className="submenu-list">
             <li>
-              <NavLink to="/dashboard/inforUser" className={({ isActive }) => isActive ? "active" : ""}>
+              <NavLink to="/dashboard/donor/inforUser" className={({ isActive }) => isActive ? "active" : ""}>
                 Thay đổi thông tin
               </NavLink>
             </li>
             <li>
-              <NavLink to="/dashboard/changePassword" className={({ isActive }) => isActive ? "active" : ""}>
+              <NavLink to="/dashboard/donor/changePassword" className={({ isActive }) => isActive ? "active" : ""}>
                 Đổi mật khẩu
               </NavLink>
             </li>

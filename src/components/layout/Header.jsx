@@ -4,10 +4,7 @@
   import { useAuth } from '../../context/AuthContext';
 
   export const Header = () => {
-    const { user, logout } = useAuth(); 
-      const handleLogout = () => {
-          logout();
-      }
+    const { user } = useAuth();
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div className="container">
@@ -24,8 +21,8 @@
           <div className="d-flex align-items-center gap-2 flex-wrap">
             {user ? (
               <>
-                <span className="nav-item nav-link">Xin chào, {user.username}</span>
-                <button onClick={handleLogout} className="btn btn-link nav-item nav-link">Đăng xuất</button>
+                <span className="nav-item nav-link">{user.fullName}</span>
+                {/* <button onClick={handleLogout} className="btn btn-link nav-item nav-link">Đăng xuất</button> */}
               </>
             ) : (
               <Link className="nav-item nav-link" to="/login">Đăng nhập</Link>

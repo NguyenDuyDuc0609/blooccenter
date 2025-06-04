@@ -26,7 +26,7 @@ export const Histories = () => {
           setLoading(true);
           await new Promise((resolve) => setTimeout(resolve, 1000));
           const result = await request(HistoriesDonate(currentPage, itemsPerPage));
-          setData(result.data.data); 
+          setData(result.data); 
           setTotalCount(result.totalCount);
         } catch (error) {
           console.error("Lỗi khi tải lịch sử:", error.message);

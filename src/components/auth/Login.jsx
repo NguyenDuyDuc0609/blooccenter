@@ -58,7 +58,7 @@ export const Login = () => {
             const userData = await login(username, password);
             if (userData.success === true) {
                 showToast({ message: 'Đăng nhập thành công!', success: true });
-                navigate('/dashboard/activityGoing?page=1');
+                navigate('/dashboard');
             }
             else if(userData.data !== null && userData.data !== undefined) {
                 showToast({ message: userData.message, success: false });
