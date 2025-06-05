@@ -8,7 +8,6 @@ export const createBloodRequestConfig = (
   method: "post",
   data: {
     HospitalId: hospitalId,
-    HospitalAccept: "",
     BloodType: bloodType,
     Quantity: quantity,
     Status: 0,
@@ -18,7 +17,7 @@ export const createBloodRequestConfig = (
 
 export const getBloodRequestsConfig = (pageNumber, pageSize) => ({
   url: "/Hospital/GetRequestBlood",
-  method: "get",
+  method: "post",
   params: {
     pageNumber,
     pageSize,

@@ -1,0 +1,35 @@
+* {
+  box-sizing: border-box;
+}
+
+.container-dashboards-hospital {
+  display: flex;
+  min-height: 100vh;
+  background: #f7f9fb;
+  margin-top: 60px;
+}
+
+.container-sidebar {
+  width: 240px;
+  min-width: 200px;
+  background: #fff;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.04);
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.main-content-hospital {
+  flex: 1 1 0%;
+  width: auto;
+  padding: 32px 24px;
+  background: #f7f9fb;
+  min-height: 100vh;
+  overflow-x: auto;
+}
+.container-activities-hospital{
+  width:80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
